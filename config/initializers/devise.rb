@@ -14,8 +14,8 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  sender_name = ENV.fetch('SENDER_NAME', 'Barong')
-  sender_email = ENV.fetch('SENDER_EMAIL', 'noreply@barong.io')
+  sender_name = ENV.fetch('SENDER_NAME', 'Ripa Exchange')
+  sender_email = ENV.fetch('SENDER_EMAIL', 'noreply@ripaex.com')
   password_min_length = ENV.fetch('PASSWORD_MIN_LENGTH', '6')
   config.mailer_sender = "#{sender_name} <#{sender_email}>"
 

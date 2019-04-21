@@ -40,13 +40,22 @@ Rails.application.configure do
   # SMTP_PORT - port, where fake relay is running. By default it is equal to 1025.
   #
   # Notice: Used by WorkBench.
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
+
   config.action_mailer.smtp_settings = {
-      address: ENV.fetch('SMTP_ADDRESS', 'localhost'),
-      port: ENV.fetch('SMTP_PORT', 1025)
+    address: "smtp.ionos.it",
+    port: 587,
+    domain: "ionos.it",####important
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: "ripatec@ripaex.io",
+    password: "P4$$w0rd"
   }
 
-  options = { host: ENV.fetch('SMTP_URL_ADDRESS', 'localhost') }
-  options[:port] = 3000 if options[:host] == 'localhost'
+  options = { host: ENV.fetch('SMTP_URL_ADDRESS', 'local.demo.auth.ripaex.io') }
+  options[:port] = 80 if options[:host] == 'local.demo.auth.ripaex.io'
 
   config.action_mailer.default_url_options = options
 

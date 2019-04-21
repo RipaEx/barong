@@ -24,7 +24,7 @@ module PhoneUtils
     def send_confirmation_sms(phone)
       Rails.logger.info("Sending SMS to #{phone.number} with code #{phone.code}")
 
-      app_name = ENV.fetch('APP_NAME', 'Barong')
+      app_name = ENV.fetch('APP_NAME', 'Ripa Exchange')
       send_sms(number: phone.number,
                content: "Your verification code for #{app_name}: #{phone.code}")
     end

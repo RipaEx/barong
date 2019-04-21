@@ -6,7 +6,7 @@ module Vault
     Error = Class.new(StandardError)
 
     class <<self
-      ISSUER_NAME = 'Barong'
+      ISSUER_NAME = 'Ripa Exchange'
 
       def server_available?
         read_data('sys/health').present?
@@ -26,7 +26,7 @@ module Vault
       def create(uid, email)
         write_data(totp_key(uid),
                    generate: true,
-                   issuer: ENV.fetch('APP_NAME', 'Barong'),
+                   issuer: ENV.fetch('APP_NAME', 'Ripa Exchange'),
                    account_name: email,
                    qr_size: 300)
       end
