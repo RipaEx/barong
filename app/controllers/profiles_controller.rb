@@ -20,10 +20,29 @@ class ProfilesController < ApplicationController
     redirect_to new_document_path
   end
 
+  def edit
+    Rails.logger.info("current_account: " + current_account.inspect)
+    Rails.logger.info("current_account.profile: " + current_account.profile.inspect)
+    if current_account.profile != nil
+      @profile = current_account.profile
+    end
+  end  
+
+  def editConfirm
+    @profile = current_account.create_profile(profile_params)
+
+    if @profile.errors.any?
+      flash[:alert] = 'Some fields are empty or invalid'
+      return render :new
+    end
+
+    redirect_to new_document_path
+  end
+
 private
 
   def redirect_if_profile_created
-    redirect_to new_document_path if current_account.profile
+#    redirect_to new_document_path if current_account.profile
   end
 
   def check_account_level

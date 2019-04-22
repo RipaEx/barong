@@ -28,10 +28,17 @@ class PhonesController < ApplicationController
     phone = current_account.phones.new(number: number)
     return render json: { error: 'Phone has already been used' } if phone.number_exists?
 
+    Rails.logger.info("Phone: " + phone.inspect)
     if PhoneUtils.valid?(phone.number)
       save_session(phone)
       PhoneUtils.send_confirmation_sms(phone)
-      render json: { success: 'Code was sent' }
+      client = Twilio::REST::Client.new(nil, nil)
+      Rails.logger.info("Twilio::REST::Client Class Type: " + client.class.name.demodulize)
+      if client.class.name.demodulize == "FakeSMS"
+        render json: { success: 'true', message: 'Code was sent: ' + phone.code }
+      else 
+        render json: { success: 'Code was sent' }
+      end
     else
       render json: { error: 'Phone is invalid' }
     end

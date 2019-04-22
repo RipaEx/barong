@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
   get  'security',            to: 'security#enable'
   post 'security/confirm',    to: 'security#confirm'
+  get  'security/disable',    to: 'security#disable'
+  post  'security/confirmDisable',    to: 'security#confirmDisable'
 
   get 'health/alive', to: 'health#alive'
   get 'health/ready', to: 'health#ready'
@@ -24,6 +26,9 @@ Rails.application.routes.draw do
   resources :phones,    only: %i[new create]
   resources :profiles,  only: %i[new create]
   resources :documents, only: %i[new create]
+
+  get 'profile/edit',         to: 'profiles#edit'
+  post 'profile/editConfirm',  to: 'profiles#editConfirm'
 
   namespace :admin do
     get '/', to: 'accounts#index', as: :accounts

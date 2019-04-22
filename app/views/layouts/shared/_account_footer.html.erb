@@ -12,6 +12,10 @@
             <%= link_to 'Enable two factor authentification', security_path, class:'dropdown-item' %>
           <% end %>
 
+          <% if Vault::TOTP.server_available? && current_account.otp_enabled %>
+            <%= link_to 'Disable two factor authentification', security_disable_path, class:'dropdown-item' %>
+          <% end %>
+
           <%= link_to 'Upload document', new_document_path, class:'dropdown-item' if current_account.profile %>
           <%= link_to 'Add phone', new_phone_path, class:'dropdown-item' %>
         </div>

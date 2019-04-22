@@ -21,9 +21,13 @@ window.onload = function () {
          if (result.success){
            $('.loader').css("display", "none");
            $('#send-code-btn').show();
-           $("#error").text('');
            $("#create-phone").prop('disabled', false);
            $("#send-code-btn").text('Resend');
+           if (result.message) {
+            $("#error").text(result.message);
+           } else {
+            $("#error").text('');
+           }
          } else {
            $('.loader').css("display", "none");
            $('#send-code-btn').show();
