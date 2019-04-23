@@ -57,6 +57,7 @@ Rails.application.configure do
   options = { host: ENV.fetch('SMTP_URL_ADDRESS', 'local.demo.auth.ripaex.io') }
   options[:port] = 80 if options[:host] == 'local.demo.auth.ripaex.io'
 
+  ENV['REDIRECT_LOGIN'] = 'http://local.demo.ripaex.io/auth/barong'
   config.action_mailer.default_url_options = options
 
   # Print deprecation notices to the Rails logger.

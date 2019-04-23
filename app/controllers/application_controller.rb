@@ -19,6 +19,26 @@ class ApplicationController < ActionController::Base
     { json: { error: 'Not authorized' } }
   end
 
+  def after_sign_in_path_for(resource_or_scope)
+    if ENV['REDIRECT_LOGIN']
+      redirectLogin = ENV.fetch('REDIRECT_LOGIN')
+      Rails.logger.info("Resource: " + redirectLogin)
+      redirectLogin
+    else 
+      '/'
+    end
+  end
+
+  def after_sign_out_path_for(resource_or_scope)
+    redirectTo = request.params["callback"]    
+    if redirectTo != nil
+      Rails.logger.info("RedirectTo: " + redirectTo)
+      redirectTo
+    else
+      '/'
+    end
+  end
+
 private
 
   def vault_human_exception(exception)
