@@ -51,7 +51,7 @@ Rails.application.configure do
     authentication: "plain",
     enable_starttls_auto: true,
     user_name: "ripatec@ripaex.io",
-    password: "P4$$w0rd"
+    password: "password"
   }
 
   options = { host: ENV.fetch('SMTP_URL_ADDRESS', 'local.demo.auth.ripaex.io') }
