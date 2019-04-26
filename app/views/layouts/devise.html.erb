@@ -1,59 +1,66 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Ripa Exchange - Auth -</title>
-  <%= csrf_meta_tags %>
-
-  <%= stylesheet_link_tag    'web', media: 'all' %>
-  <%= domain_stylesheet_tag(domain_asset :stylesheet) %>
-  <%= javascript_include_tag 'web' %>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <%= domain_favicon_tag %>
-</head>
-<body class="devise">
-  <%= domain_html_tag(domain_asset :header) %>
-
-  <div class="container-fluid">
-
-    <div class="row justify-content-center">
-      <div class="col-xs-10 col-sm-8 col-md-6 col-lg-2">
-        <div class="main-logo">
-          <%= link_to domain_logo_tag(domain_asset :logo), index_path %>
-        </div>
-      </div>
-    </div>
-
-    <div class="row justify-content-center">
-      <div class="mt-5 mb-5 mx-4 main-card">
-        <div class="card">
-
-          <% unless alert.blank? %>
-            <span class="alert alert-danger mb-0">
-              <i class="icon icon-cancel-circled"></i> <h3><%= alert %></h3>
-            </span>
-          <% end %>
-
-          <% unless notice.blank? %>
-            <span class="alert alert-success mb-0">
-              <i class="icon icon-cancel-circled"></i> <h3><%= notice %></h3>
-            </span>
-          <% end %>
-
-          <div classs="pt-2">
-            <%= yield %>
+  <head>
+    <title>Ripa Exchange - Auth -</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'web', media: 'all' %>
+    <%= domain_stylesheet_tag(domain_asset :stylesheet) %>
+    <%= javascript_include_tag 'web' %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= domain_favicon_tag %>
+  </head>
+  <body class="devise">
+    <%= domain_html_tag(domain_asset :header) %>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-xs-10 col-sm-8 col-md-6 col-lg-2">
+          <div class="main-logo">
+            <%= link_to domain_logo_tag(domain_asset :logo), index_path %>
           </div>
-
-          <% if account_signed_in? %>
-            <%= render 'layouts/shared/account_footer' %>
-          <% else %>
-            <%= render 'devise/shared/footer' %>
-          <% end %>
-
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="mt-5 mb-5 mx-4 main-card">
+          <div class="card">
+            <% unless alert.blank? %>
+              <span class="alert alert-danger mb-0">
+                <i class="icon icon-cancel-circled"></i> 
+                <h3><%= alert %></h3>
+              </span>
+            <% end %>
+            <% unless notice.blank? %>
+              <span class="alert alert-success mb-0">
+                <i class="icon icon-cancel-circled"></i> 
+                <h3><%= notice %></h3>
+              </span>
+            <% end %>
+            <div classs="pt-2">
+              <%= yield %>
+            </div>
+            <% if account_signed_in? %>
+              <%= render 'layouts/shared/account_footer' %>
+            <% else %>
+              <%= render 'devise/shared/footer' %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
-
-  </div>
-  <%= domain_html_tag(domain_asset :footer) %>
-</body>
+    <%= domain_html_tag(domain_asset :footer) %>
+    <div class="row justify-content-center">
+      <span class="bottom text-center" style="color: #fff;">
+        <br>
+        <br>
+        <br>
+        <a href="https://www.ripaex.com/assets/RIPAEX-TOS.pdf">Terms of Service</a>
+        -
+        <a href="https://www.iubenda.com/privacy-policy/28003073" class="iubenda-white iubenda-embed "
+             title="Privacy Policy">Privacy Policy</a>
+        <br>
+        &copy; 2019 RipaEx
+        <br>
+        <br>
+      </span>
+    </div>
+  </body>
 </html>
