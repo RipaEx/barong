@@ -35,7 +35,7 @@ class PhonesController < ApplicationController
       client = Twilio::REST::Client.new(nil, nil)
       Rails.logger.info("Twilio::REST::Client Class Type: " + client.class.name.demodulize)
       if client.class.name.demodulize == "FakeSMS"
-        render json: { success: 'true', message: 'Code was sent: ' + phone.code }
+        render json: { success: 'true', message: 'FakeSMS Code: ' + phone.code }
       else 
         render json: { success: 'Code was sent' }
       end

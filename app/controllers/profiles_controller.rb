@@ -42,7 +42,7 @@ class ProfilesController < ApplicationController
 private
 
   def redirect_if_profile_created
-#    redirect_to new_document_path if current_account.profile
+    redirect_to new_document_path if current_account.profile
   end
 
   def check_account_level

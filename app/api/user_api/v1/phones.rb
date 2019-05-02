@@ -27,7 +27,13 @@ module UserApi
           error!(phone.errors, 422) if phone.errors.any?
 
           PhoneUtils.send_confirmation_sms(phone)
-          { message: 'Code was sent successfully' }
+          client = Twilio::REST::Client.new(nil, nil)
+          Rails.logger.info("Twilio::REST::Client Class Type: " + client.class.name.demodulize)
+          if client.class.name.demodulize == "FakeSMS"
+            { success: true, message: 'FakeSMS Code: ' + phone.code }
+          else 
+            { success: true, message: 'Code was sent successfully' }
+          end              
         end
 
         desc 'Resend activation code',
@@ -46,13 +52,17 @@ module UserApi
         post '/send_code' do
           declared_params = declared(params)
           return unless phone_valid?(declared_params[:phone_number])
-
           phone_number = PhoneUtils.international(declared_params[:phone_number])
           phone = current_account.phones.find_by!(number: phone_number)
           error!(phone.errors, 422) unless phone.regenerate_code
-
           PhoneUtils.send_confirmation_sms(phone)
-          { message: 'Code was sent successfully' }
+          client = Twilio::REST::Client.new(nil, nil)
+          Rails.logger.info("Twilio::REST::Client Class Type: " + client.class.name.demodulize)
+          if client.class.name.demodulize == "FakeSMS"
+            { success: true, message: 'FakeSMS Code: ' + phone.code }
+          else 
+            { success: true, message: 'Code was sent successfully' }
+          end              
         end
 
         desc 'Verify a phone',
@@ -82,7 +92,7 @@ module UserApi
 
           phone.update(validated_at: Time.current)
           current_account.add_level_label(:phone)
-          { message: 'Phone was verified successfully' }
+          { success: true, message: 'Phone was verified successfully' }
         end
       end
     end
