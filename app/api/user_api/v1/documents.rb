@@ -13,7 +13,12 @@ module UserApi
                { code: 401, message: 'Invalid bearer token' }
              ]
         get '/' do
-          current_account.documents.as_json(only: %i[upload doc_type doc_number doc_expire])
+          documentsList = current_account.documents
+          if documentsList.size > 0
+            documentsList.as_json(only: %i[upload doc_type doc_number doc_expire])
+          else
+            error! 'No documents found', 404
+          end
         end
 
         desc 'Upload a new document for current user',
