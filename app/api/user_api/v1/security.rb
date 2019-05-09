@@ -37,7 +37,9 @@ module UserApi
              ]
         post '/generate_qrcode' do
           error!('2FA has been enabled for this account', 400) if current_account.otp_enabled
-          Vault::TOTP.create(current_account.uid, current_account.email)
+          @otp = Vault::TOTP.create(current_account.uid, current_account.email)
+          @otp_secret = Vault::TOTP.otp_secret(@otp)
+          return {:otp => @otp, :otp_secret => @otp_secret}
         end
 
         desc 'Enable 2FA',
@@ -59,6 +61,29 @@ module UserApi
           end
 
           unless current_account.update(otp_enabled: true)
+            error!(current_account.errors.full_messages.to_sentence, 422)
+          end
+        end
+
+        desc 'Disable 2FA',
+             security: [{ "BearerToken": [] }],
+             failure: [
+               { code: 400, message: '2FA is already disabled for this account or code is missing' },
+               { code: 401, message: 'Invalid bearer token' },
+               { code: 422, message: 'Validation errors' }
+             ]
+        params do
+          requires :code, type: String, desc: 'Code from Google Authenticator',
+                          allow_blank: false
+        end
+        post '/disable_2fa' do
+          error!('2FA is already disabled for this account', 400) if current_account.otp_enabled == false
+
+          unless Vault::TOTP.validate?(current_account.uid, declared(params)[:code])
+            error!('OTP code is invalid', 422)
+          end
+
+          unless current_account.update(otp_enabled: false)
             error!(current_account.errors.full_messages.to_sentence, 422)
           end
         end
